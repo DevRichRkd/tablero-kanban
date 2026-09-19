@@ -24,6 +24,7 @@ fi
 
 echo "[INFO] Construyendo imagen Docker tablero-kanban..."
 docker build -t tablero-kanban .
+docker image prune -f >/dev/null 2>&1 || true
 
 echo "[INFO] Deteniendo contenedor previo si existe..."
 docker rm -f tablero-kanban-app 2>/dev/null || true

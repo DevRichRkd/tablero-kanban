@@ -16,6 +16,7 @@ if %errorlevel% neq 0 (
     echo [ERROR] Fallo la construccion de la imagen Docker.
     exit /b 1
 )
+docker image prune -f >nul 2>&1
 
 echo [INFO] Deteniendo contenedor previo si existe...
 docker rm -f tablero-kanban-app >nul 2>&1
