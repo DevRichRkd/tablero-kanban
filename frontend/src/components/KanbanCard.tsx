@@ -32,24 +32,41 @@ export const KanbanCard = ({ card, onDelete }: KanbanCardProps) => {
       {...listeners}
       data-testid={`card-${card.id}`}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex-1">
-          <h4 className="font-display text-base font-semibold text-[var(--navy-dark)]">
-            {card.title}
-          </h4>
-          <p className="mt-2 text-sm leading-6 text-[var(--gray-text)]">
-            {card.details}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => onDelete(card.id)}
-          className="rounded-full border border-transparent px-2.5 py-1 text-xs font-semibold text-[var(--gray-text)] transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
-          aria-label={`Eliminar tarjeta ${card.title}`}
-        >
-          Eliminar
-        </button>
+      <div className="pr-8">
+        <h4 className="font-display text-base font-semibold leading-snug text-[var(--navy-dark)]">
+          {card.title}
+        </h4>
+        <p className="mt-2 text-sm leading-6 text-[var(--gray-text)]">
+          {card.details}
+        </p>
       </div>
+
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete(card.id);
+        }}
+        onPointerDown={(e) => e.stopPropagation()}
+        className="absolute right-3.5 top-3.5 flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 opacity-60 transition-all duration-150 hover:bg-red-50 hover:text-red-600 hover:opacity-100 group-hover:opacity-100 focus:opacity-100 focus:outline-none"
+        aria-label={`Eliminar tarjeta ${card.title}`}
+        title="Eliminar tarjeta"
+      >
+        <svg
+          className="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+          />
+        </svg>
+      </button>
     </article>
   );
 };

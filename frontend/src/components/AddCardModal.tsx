@@ -143,7 +143,7 @@ export function AddCardModal({
             <button
               type="submit"
               data-testid="modal-btn-save"
-              className="rounded-2xl bg-[var(--purple-secondary)] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-md transition hover:bg-[#60287a] hover:shadow-lg"
+              className="rounded-2xl bg-[#753991] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white shadow-md shadow-purple-950/20 transition-all duration-200 hover:bg-[#032147] hover:shadow-lg active:scale-95"
             >
               Guardar tarjeta
             </button>

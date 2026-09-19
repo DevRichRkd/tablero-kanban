@@ -6,7 +6,7 @@ import re
 from typing import Any, Dict, List, Optional
 import httpx
 
-DEFAULT_MODEL = "gemini-3.6-flash"
+DEFAULT_MODEL = "gemini-3.1-flash-lite"
 GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
 
 
