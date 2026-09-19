@@ -28,7 +28,7 @@ describe("KanbanBoard", () => {
   it("renames a column", async () => {
     render(<KanbanBoard initialUser="user" />);
     const column = getFirstColumn();
-    const input = within(column).getByLabelText("Column title");
+    const input = within(column).getByLabelText(/titulo de columna/i);
     await userEvent.clear(input);
     await userEvent.type(input, "New Name");
     expect(input).toHaveValue("New Name");
@@ -38,21 +38,21 @@ describe("KanbanBoard", () => {
     render(<KanbanBoard initialUser="user" />);
     const column = getFirstColumn();
     const addButton = within(column).getByRole("button", {
-      name: /add a card/i,
+      name: /agregar tarjeta/i,
     });
     await userEvent.click(addButton);
 
-    const titleInput = within(column).getByPlaceholderText(/card title/i);
+    const titleInput = screen.getByTestId("modal-card-title");
     await userEvent.type(titleInput, "New card");
-    const detailsInput = within(column).getByPlaceholderText(/details/i);
+    const detailsInput = screen.getByTestId("modal-card-details");
     await userEvent.type(detailsInput, "Notes");
 
-    await userEvent.click(within(column).getByRole("button", { name: /add card/i }));
+    await userEvent.click(screen.getByTestId("modal-btn-save"));
 
     expect(within(column).getByText("New card")).toBeInTheDocument();
 
     const deleteButton = within(column).getByRole("button", {
-      name: /delete new card/i,
+      name: /eliminar tarjeta new card/i,
     });
     await userEvent.click(deleteButton);
 

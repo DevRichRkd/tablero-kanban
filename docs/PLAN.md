@@ -100,14 +100,14 @@ Objetivo: Requerir que el usuario inicie sesion con credenciales simuladas antes
 Objetivo: Definir y documentar el modelo de base de datos relacional para soportar usuarios, tableros, columnas y tarjetas en SQLite.
 
 ### Lista de verificacion
-- [ ] Disenar el esquema relacional con soporte multi-usuario:
+- [x] Disenar el esquema relacional con soporte multi-usuario:
   - Tabla `users`: identificador, nombre de usuario, contraseña o hash, fecha de creacion.
   - Tabla `boards`: identificador, relacion a usuario (`user_id`), titulo, fecha de creacion.
   - Tabla `columns`: identificador, relacion a tablero (`board_id`), titulo, posicion/orden.
   - Tabla `cards`: identificador, relacion a columna (`column_id`), titulo, detalles, posicion/orden, fecha de creacion.
-- [ ] Exportar el esquema formal en formato JSON en `docs/schema.json`.
-- [ ] Documentar el modelo y sus decisiones en `docs/DATABASE.md`.
-- [ ] Presentar el esquema al usuario y obtener su aprobacion.
+- [x] Exportar el esquema formal en formato JSON en `docs/schema.json`.
+- [x] Documentar el modelo y sus decisiones en `docs/DATABASE.md`.
+- [x] Presentar el esquema al usuario y obtener su aprobacion.
 
 ### Pruebas
 - Validar la sintaxis y estructura del archivo `docs/schema.json`.
@@ -124,17 +124,17 @@ Objetivo: Definir y documentar el modelo de base de datos relacional para soport
 Objetivo: Implementar la capa de datos SQLite en FastAPI y crear los endpoints CRUD para consultar y modificar el tablero de un usuario, con creacion automatica de la base de datos.
 
 ### Lista de verificacion
-- [ ] Configurar SQLAlchemy / SQLModel con SQLite en `backend/app/db.py`.
-- [ ] Implementar logica para crear automaticamente el archivo SQLite y poblar datos iniciales si no existe.
-- [ ] Definir modelos de datos y esquemas Pydantic correspondientes.
-- [ ] Implementar rutas de API en `backend/app/routes/kanban.py`:
+- [x] Configurar SQLAlchemy / SQLModel con SQLite en `backend/app/db.py`.
+- [x] Implementar logica para crear automaticamente el archivo SQLite y poblar datos iniciales si no existe.
+- [x] Definir modelos de datos y esquemas Pydantic correspondientes.
+- [x] Implementar rutas de API en `backend/app/routes/kanban.py`:
   - `GET /api/kanban`: Obtener columnas y tarjetas del usuario.
   - `POST /api/kanban/cards`: Crear una nueva tarjeta en una columna.
   - `PUT /api/kanban/cards/{card_id}`: Actualizar titulo o detalles de una tarjeta.
   - `DELETE /api/kanban/cards/{card_id}`: Eliminar una tarjeta.
   - `PUT /api/kanban/columns/{column_id}`: Renombrar columna.
   - `PUT /api/kanban/move-card`: Actualizar orden y posicion de tarjetas entre columnas.
-- [ ] Implementar pruebas unitarias de backend con `pytest`.
+- [x] Implementar pruebas unitarias de backend con `pytest`.
 
 ### Pruebas
 - Pruebas unitarias de creacion de BD: verificar que al arrancar en un entorno limpio se genera la base de datos con el esquema correcto.
@@ -154,13 +154,13 @@ Objetivo: Implementar la capa de datos SQLite en FastAPI y crear los endpoints C
 Objetivo: Conectar el frontend Next.js a los endpoints de la API FastAPI para lograr persistencia reactiva completa.
 
 ### Lista de verificacion
-- [ ] Crear cliente HTTP tipado en `frontend/src/lib/api.ts`.
-- [ ] Modificar `KanbanBoard.tsx` para cargar los datos del tablero desde `GET /api/kanban` al iniciar sesion.
-- [ ] Conectar la accion de agregar tarjeta con `POST /api/kanban/cards`.
-- [ ] Conectar la accion de eliminar tarjeta con `DELETE /api/kanban/cards/{card_id}`.
-- [ ] Conectar la accion de renombrar columna con `PUT /api/kanban/columns/{column_id}`.
-- [ ] Conectar el movimiento de tarjetas con `PUT /api/kanban/move-card`.
-- [ ] Agregar indicadores discretos de guardado o error de red.
+- [x] Crear cliente HTTP tipado en `frontend/src/lib/api.ts`.
+- [x] Modificar `KanbanBoard.tsx` para cargar los datos del tablero desde `GET /api/kanban` al iniciar sesion.
+- [x] Conectar la accion de agregar tarjeta con `POST /api/kanban/cards`.
+- [x] Conectar la accion de eliminar tarjeta con `DELETE /api/kanban/cards/{card_id}`.
+- [x] Conectar la accion de renombrar columna con `PUT /api/kanban/columns/{column_id}`.
+- [x] Conectar el movimiento de tarjetas con `PUT /api/kanban/move-card`.
+- [x] Agregar indicadores discretos de guardado o error de red.
 
 ### Pruebas
 - Pruebas de persistencia: crear una tarjeta, recargar la pagina en el navegador y comprobar que la tarjeta permanece visible.
@@ -175,22 +175,22 @@ Objetivo: Conectar el frontend Next.js a los endpoints de la API FastAPI para lo
 
 ## Parte 8: Conectividad con IA
 
-Objetivo: Configurar y verificar la comunicacion del backend con el servicio de IA mediante OpenRouter.
+Objetivo: Configurar y verificar la comunicacion del backend con el servicio de IA mediante la API de Google Gemini.
 
 ### Lista de verificacion
-- [ ] Crear modulo de servicio de IA en `backend/app/services/ai.py`.
-- [ ] Configurar lectura de `OPENROUTER_API_KEY` desde variable de entorno / `.env`.
-- [ ] Configurar modelo por defecto `openai/gpt-oss-120b:free` con opcion de sobreescritura por variable de entorno.
-- [ ] Crear endpoint de diagnostico `POST /api/ai/test` que envie una consulta basica ("Cuanto es 2+2?").
-- [ ] Escribir prueba unitaria con mock y prueba de integracion opcional contra OpenRouter.
+- [x] Crear modulo de servicio de IA en `backend/app/services/ai.py`.
+- [x] Configurar lectura de `GEMINI_API_KEY` desde variable de entorno / `.env`.
+- [x] Configurar modelo por defecto `gemini-3.6-flash` con opcion de sobreescritura por variable de entorno `GEMINI_MODEL`.
+- [x] Crear endpoint de diagnostico `POST /api/ai/test` que envie una consulta basica ("Cuanto es 2+2?").
+- [x] Escribir prueba unitaria con mock y prueba de integracion opcional contra Google Gemini.
 
 ### Pruebas
-- Prueba unitaria con mock de la llamada HTTP a OpenRouter.
+- Prueba unitaria con mock de la llamada a la API de Gemini.
 - Prueba manual o de integracion contra el endpoint `POST /api/ai/test` comprobando que retorna el resultado esperado.
 
 ### Criterios de exito
-- El backend puede autenticarse contra OpenRouter y recibir respuestas validas del modelo.
-- En caso de fallo de red o cuota, se devuelve un mensaje de error claro y descriptivo.
+- El backend puede autenticarse contra Google Gemini y recibir respuestas validas del modelo.
+- En caso de falta de clave o error de cuota/red, se devuelve un mensaje de error claro y descriptivo sin caida del servicio.
 
 ---
 
@@ -199,17 +199,17 @@ Objetivo: Configurar y verificar la comunicacion del backend con el servicio de 
 Objetivo: Permitir que el backend envie el estado JSON del tablero y el mensaje del usuario al LLM, obteniendo una respuesta estructurada que contenga el mensaje conversacional y posibles mutaciones al tablero.
 
 ### Lista de verificacion
-- [ ] Disenar esquema de Salida Estructurada (JSON Schema / Pydantic) con los campos:
+- [x] Disenar esquema de Salida Estructurada (JSON Schema / Pydantic) con los campos:
   - `reply`: Texto de respuesta para el usuario.
-  - `action`: Tipo de accion (`none`, `create_card`, `update_card`, `move_card`, `delete_card`, `batch_update`).
+  - `action`: Tipo de accion (`none`, `create_card`, `update_card`, `move_card`, `delete_card`).
   - `payload`: Parametros especificos de la operacion sobre el tablero.
-- [ ] Crear endpoint `POST /api/ai/chat` que reciba:
+- [x] Crear endpoint `POST /api/ai/chat` que reciba:
   - Historial de mensajes de la conversacion.
   - Estado actual del tablero Kanban.
   - Mensaje del usuario.
-- [ ] Implementar en el backend la aplicacion automatica de la mutacion indicada por el LLM en la base de datos.
-- [ ] Retornar al cliente tanto el mensaje de respuesta como el estado actualizado del tablero.
-- [ ] Escribir pruebas unitarias simulando diferentes respuestas estructuradas.
+- [x] Implementar en el backend la aplicacion automatica de la mutacion indicada por el LLM en la base de datos.
+- [x] Retornar al cliente tanto el mensaje de respuesta como el estado actualizado del tablero.
+- [x] Escribir pruebas unitarias simulando diferentes respuestas estructuradas.
 
 ### Pruebas
 - Pruebas unitarias de parsing de salida estructurada para cada tipo de accion.
@@ -227,18 +227,18 @@ Objetivo: Permitir que el backend envie el estado JSON del tablero y el mensaje 
 Objetivo: Incorporar en la interfaz de usuario una barra lateral de chat con IA que permita interactuar en lenguaje natural y refleje instantaneamente los cambios en el tablero.
 
 ### Lista de verificacion
-- [ ] Crear componente `frontend/src/components/AiChatSidebar.tsx`.
-- [ ] Incorporar boton para expandir y colapsar la barra lateral con transiciones fluidas.
-- [ ] Disenar la interfaz del chat aplicando estrictamente el esquema de colores:
+- [x] Crear componente `frontend/src/components/AiChatSidebar.tsx`.
+- [x] Incorporar boton para expandir y colapsar la barra lateral con transiciones fluidas.
+- [x] Disenar la interfaz del chat aplicando estrictamente el esquema de colores:
   - Titulos y cabecera: `#032147`
   - Boton de envio: `#753991`
   - Destacados y acentos: `#ecad0a`
   - Enlaces o badges: `#209dd7`
   - Textos secundarios: `#888888`
-- [ ] Mostrar historial de conversacion con burbujas diferenciadas para usuario e IA.
-- [ ] Conectar el envio de mensajes a `POST /api/ai/chat`.
-- [ ] Al recibir un tablero actualizado en la respuesta del backend, actualizar el estado de `KanbanBoard` reactivamente sin recargar la pagina.
-- [ ] Anadir estados visuales de carga ("Pensando...") y manejo de errores amigable.
+- [x] Mostrar historial de conversacion con burbujas diferenciadas para usuario e IA.
+- [x] Conectar el envio de mensajes a `POST /api/ai/chat`.
+- [x] Al recibir un tablero actualizado en la respuesta del backend, actualizar el estado de `KanbanBoard` reactivamente sin recargar la pagina.
+- [x] Anadir estados visuales de carga ("Pensando...") y manejo de errores amigable.
 
 ### Pruebas
 - Pruebas unitarias con Vitest para el componente `AiChatSidebar`.

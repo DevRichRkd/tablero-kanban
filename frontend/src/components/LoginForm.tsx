@@ -41,7 +41,7 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
             Acceso
           </div>
           <h1 className="mt-3 font-display text-3xl font-bold text-[var(--navy-dark)]">
-            Kanban Studio
+            Mi Kanban
           </h1>
           <p className="mt-2 text-sm leading-6 text-[var(--gray-text)]">
             Inicie sesion para gestionar su tablero y tareas de proyecto.

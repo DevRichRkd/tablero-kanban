@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KanbanDatabaseSchema",
+  "description": "Esquema relacional de base de datos SQLite para la aplicacion Kanban MVP",
+  "version": "1.0.0",
+  "database": "sqlite",
+  "tables": [
+    {
+      "name": "users",
+      "description": "Almacena los usuarios de la aplicacion",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "primaryKey": true,
+          "nullable": false,
+          "description": "Identificador unico de usuario"
+        },
+        {
+          "name": "username",
+          "type": "TEXT",
+          "primaryKey": false,
+          "nullable": false,
+          "unique": true,
+          "description": "Nombre de usuario unico para inicio de sesion"
+        },
+        {
+          "name": "password_hash",
+          "type": "TEXT",
+          "primaryKey": false,
+          "nullable": false,
+          "description": "Contrasena o hash para autenticacion"
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "primaryKey": false,
+          "nullable": false,
+          "description": "Fecha y hora de registro en formato ISO 8601"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_users_username",
+          "columns": ["username"],
+          "unique": true
+        }
+      ]
+    },
+    {
+      "name": "boards",
+      "description": "Tableros Kanban asociados a usuarios",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "primaryKey": true,
+          "nullable": false,
+          "description": "Identificador unico del tablero"
+        },
+        {
+          "name": "user_id",
+          "type": "TEXT",
+          "primaryKey": false,
+          "nullable": false,
+          "description": "Clave foranea que referencia al propietario en users.id"
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "primaryKey": false,
+          "nullable": false,
+          "description": "Titulo del tablero (ej. Tablero Principal)"
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "primaryKey": false,
+          "nullable": false,
+          "description": "Fecha y hora de creacion en formato ISO 8601"
+        }
+      ],
+      "foreignKeys": [
+        {
+          "column": "user_id",
+          "referencedTable": "users",
+          "referencedColumn": "id",
+          "onDelete": "CASCADE"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_boards_user_id",
+          "columns": ["user_id"],
+          "unique": false
+        }
+      ]
+    },
+    {
+      "name": "columns",
+      "description": "Columnas de fases dentro de un tablero",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "primaryKey": true,
+          "nullable": false,
+          "description": "Identificador unico de columna (ej. col-backlog)"
+        },
+        {
+          "name": "board_id",
+          "type": "TEXT",
+          "primaryKey": false,
+          "nullable": false,
+          "description": "Clave foranea que referencia al tablero en boards.id"
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "primaryKey": false,
+          "nullable": false,
+          "description": "Titulo renombrable de la columna"
+        },
+        {
+          "name": "position",
+          "type": "INTEGER",
+          "primaryKey": false,
+          "nullable": false,
+          "description": "Orden ordinal de la columna en el tablero (0, 1, 2, ...)"
+        }
+      ],
+      "foreignKeys": [
+        {
+          "column": "board_id",
+          "referencedTable": "boards",
+          "referencedColumn": "id",
+          "onDelete": "CASCADE"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_columns_board_position",
+          "columns": ["board_id", "position"],
+          "unique": true
+        }
+      ]
+    },
+    {
+      "name": "cards",
+      "description": "Tarjetas individuales de tareas pertenecientes a una columna",
+      "columns": [
+        {
+          "name": "id",
+          "type": "TEXT",
+          "primaryKey": true,
+          "nullable": false,
+          "description": "Identificador unico de la tarjeta (ej. card-1)"
+        },
+        {
+          "name": "column_id",
+          "type": "TEXT",
+          "primaryKey": false,
+          "nullable": false,
+          "description": "Clave foranea que referencia a la columna en columns.id"
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "primaryKey": false,
+          "nullable": false,
+          "description": "Titulo o nombre de la tarjeta"
+        },
+        {
+          "name": "details",
+          "type": "TEXT",
+          "primaryKey": false,
+          "nullable": false,
+          "description": "Descripcion o detalles de la tarjeta"
+        },
+        {
+          "name": "position",
+          "type": "INTEGER",
+          "primaryKey": false,
+          "nullable": false,
+          "description": "Posicion ordinal de la tarjeta dentro de su columna (0, 1, 2, ...)"
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "primaryKey": false,
+          "nullable": false,
+          "description": "Fecha y hora de creacion en formato ISO 8601"
+        }
+      ],
+      "foreignKeys": [
+        {
+          "column": "column_id",
+          "referencedTable": "columns",
+          "referencedColumn": "id",
+          "onDelete": "CASCADE"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_cards_column_position",
+          "columns": ["column_id", "position"],
+          "unique": false
+        }
+      ]
+    }
+  ],
+  "seedData": {
+    "defaultUsers": [
+      {
+        "id": "user-default-1",
+        "username": "user",
+        "password": "password"
+      },
+      {
+        "id": "user-default-2",
+        "username": "usuario",
+        "password": "contraseña"
+      }
+    ],
+    "defaultColumns": [
+      { "id": "col-backlog", "title": "Backlog", "position": 0 },
+      { "id": "col-discovery", "title": "Discovery", "position": 1 },
+      { "id": "col-progress", "title": "In Progress", "position": 2 },
+      { "id": "col-review", "title": "Review", "position": 3 },
+      { "id": "col-done", "title": "Done", "position": 4 }
+    ]
+  }
+}

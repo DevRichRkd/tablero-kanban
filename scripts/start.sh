@@ -29,6 +29,11 @@ echo "[INFO] Deteniendo contenedor previo si existe..."
 docker rm -f tablero-kanban-app 2>/dev/null || true
 
 echo "[INFO] Iniciando contenedor tablero-kanban-app en el puerto 8000..."
-docker run -d --name tablero-kanban-app -p 8000:8000 tablero-kanban
+ENV_ARG=""
+if [ -f ".env" ]; then
+    echo "[INFO] Cargando variables de entorno desde .env..."
+    ENV_ARG="--env-file .env"
+fi
+docker run -d --name tablero-kanban-app $ENV_ARG -p 8000:8000 tablero-kanban
 
 echo "[INFO] Aplicacion disponible en http://localhost:8000"

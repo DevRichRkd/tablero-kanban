@@ -23,8 +23,8 @@ Para el MVP, esto se ejecutará localmente (en un contenedor docker)
 - Backend Python FastAPI, incluyendo servir el sitio estático NextJS en /
 - Todo empaquetado en un contenedor Docker
 - Usar "uv" como gestor de paquetes para python en el contenedor Docker
-- Usar OpenRouter para las llamadas de IA. Una OPENROUTER_API_KEY está en .env en la raíz del proyecto
-- Usar `openai/gpt-oss-120b:free` como modelo
+- Usar la API de Google Gemini para las llamadas de IA. Una GEMINI_API_KEY está en .env en la raíz del proyecto
+- Usar `gemini-3.6-flash` como modelo predeterminado (configurable por entorno)
 - Usar base de datos SQLLite local, creando una nueva bd si no existe
 - Scripts de inicio y parada del servidor para Mac, PC, Linux en scripts/
 
